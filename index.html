@@ -2,12 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
-<meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<meta name="apple-mobile-web-app-title" content="PUMPD"/>
-<meta name="mobile-web-app-capable" content="yes"/>
-<meta name="theme-color" content="#0C0C0F"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"/>
 <title>PUMPD</title>
 <!-- Barlow Condensed = closest Google Fonts match to that bold condensed style in the screenshot -->
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800;900&family=Barlow:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -232,26 +227,7 @@ body{display:flex;align-items:center;justify-content:center;}
 
 /* Gradient header */
 .grad-h{background:linear-gradient(170deg,rgba(255,77,28,0.07) 0%,transparent 55%);}
-
-/* ===== REAL iPHONE — fullscreen PWA mode ===== */
-@media (display-mode:standalone),(max-device-width:430px){
-  body{background:#0C0C0F;align-items:flex-start;justify-content:flex-start;}
-  .phone-wrap,.phone{width:100vw;height:100vh;max-width:100%;border-radius:0;box-shadow:none;}
-  .island{display:none;}
-  /* Push content below the status bar notch */
-  .sbar{padding-top:max(env(safe-area-inset-top),20px);}
-  /* Nav bar clears the home indicator */
-  .bnav{
-    height:calc(64px + env(safe-area-inset-bottom));
-    padding-bottom:calc(env(safe-area-inset-bottom) + 6px);
-  }
-  /* Screens end where nav starts */
-  .screen{bottom:calc(64px + env(safe-area-inset-bottom));}
-  #scam,#sana{bottom:0;}
-  .cam-ctrl{padding-bottom:calc(env(safe-area-inset-bottom) + 90px);}
-  /* Results sbar safe area */
-  #sres .sbar{padding-top:max(env(safe-area-inset-top),20px);}
-}
+</style>
 </head>
 <body>
 <div class="phone-wrap">
