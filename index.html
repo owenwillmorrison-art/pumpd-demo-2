@@ -39,36 +39,45 @@ body{display:block;margin:0;padding:0;}
   .island{display:block;position:absolute;top:12px;left:50%;transform:translateX(-50%);width:126px;height:34px;background:#000;border-radius:20px;z-index:300;}
 }
 
-.screen{position:absolute;top:0;left:0;right:0;bottom:80px;display:none;flex-direction:column;background:var(--light);overflow:hidden;}
-.screen.active{display:flex;}
-#scam{bottom:0;}
-#sana{bottom:0;}
+/* Safe area for status bar top */
+@media(max-width:499px){
+  .sbar{padding-top:max(52px,env(safe-area-inset-top,20px));}
+}
 
 .scroll-area{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:24px;}
 .scroll-area::-webkit-scrollbar{display:none;}
 
 /* Status bar */
 .sbar{display:flex;justify-content:space-between;align-items:center;padding:52px 22px 10px;flex-shrink:0;}
-@media(max-width:499px){
-  .sbar{padding-top:max(52px,env(safe-area-inset-top,20px));}
-}
 .stime{font-size:16px;font-weight:700;color:var(--text);}
 
-/* Bottom nav */
-.bnav{position:absolute;bottom:0;left:0;right:0;height:var(--nav-h);background:var(--white);border-top:1px solid var(--l3);display:flex;align-items:center;justify-content:space-around;padding:0 8px 16px;z-index:100;box-shadow:0 -4px 20px rgba(0,0,0,0.07);}
-@media(max-width:499px){
-  .bnav{padding-bottom:max(16px,env(safe-area-inset-bottom,16px));}
+/* Bottom nav - anchored to true bottom with safe area */
+.bnav{
+  position:absolute;bottom:0;left:0;right:0;
+  background:var(--white);
+  border-top:1px solid var(--l3);
+  display:flex;
+  align-items:center;
+  justify-content:space-around;
+  padding:8px 8px calc(8px + env(safe-area-inset-bottom, 0px));
+  z-index:100;
+  box-shadow:0 -4px 20px rgba(0,0,0,0.07);
 }
-.ni{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:8px 10px 4px;border-radius:14px;transition:all 0.18s;flex:1;border:none;background:none;}
-.ni svg{width:23px;height:23px;stroke:var(--t3);stroke-width:2;fill:none;transition:stroke 0.18s;}
+.screen{position:absolute;top:0;left:0;right:0;bottom:calc(62px + env(safe-area-inset-bottom, 0px));display:none;flex-direction:column;background:var(--light);overflow:hidden;}
+.screen.active{display:flex;}
+#scam{bottom:0;}
+#sana{bottom:0;}
+.ni{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:6px 10px 4px;border-radius:14px;transition:all 0.18s;flex:1;border:none;background:none;}
+.ni svg{width:22px;height:22px;stroke:var(--t3);stroke-width:2;fill:none;transition:stroke 0.18s;}
 .ni span{font-size:10px;color:var(--t3);font-weight:600;}
 .ni.on svg{stroke:var(--or);}
 .ni.on span{color:var(--or);}
 .ni.on{background:rgba(255,77,28,0.07);}
-.ncam-wrap{display:flex;flex-direction:column;align-items:center;flex-shrink:0;padding-bottom:14px;}
-.ncam{width:54px;height:54px;background:linear-gradient(145deg,var(--or),var(--or2));border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--og);transition:transform 0.15s;border:none;}
+/* Camera fits inside the bar — same height as other items, no float */
+.ncam-wrap{display:flex;flex-direction:column;align-items:center;flex-shrink:0;}
+.ncam{width:52px;height:52px;background:linear-gradient(145deg,var(--or),var(--or2));border-radius:16px;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:var(--og);transition:transform 0.15s;border:none;}
 .ncam:active{transform:scale(0.93);}
-.ncam svg{width:26px;height:26px;stroke:#fff;stroke-width:2;fill:none;}
+.ncam svg{width:25px;height:25px;stroke:#fff;stroke-width:2;fill:none;}
 .ncam-label{font-size:10px;color:var(--t3);font-weight:600;margin-top:3px;}
 
 /* Cards */
@@ -288,7 +297,27 @@ body{display:block;margin:0;padding:0;}
 
 <!-- WORKOUT -->
 <div id="swork" class="screen">
-  <div class="sbar"><span class="stime">9:41</span></div>
+  <div class="sbar grad-h">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="av av-sm" style="background:linear-gradient(135deg,var(--or),var(--or2));position:relative;font-weight:800;">J
+        <div style="position:absolute;bottom:-5px;right:-5px;background:var(--or);border-radius:7px;padding:1px 5px;font-size:9px;font-weight:800;color:#fff;border:2px solid var(--white);">12</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--t3);font-weight:600;">Good evening 👋</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:var(--text);text-transform:uppercase;">Jackson</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <div style="background:var(--white);border-radius:14px;padding:7px 11px;box-shadow:var(--cs);display:flex;align-items:center;gap:5px;">
+        <span style="font-size:16px;">🔥</span>
+        <div><div style="font-size:15px;font-weight:800;line-height:1;color:var(--text);">14</div><div style="font-size:9px;color:var(--t3);font-weight:700;">STREAK</div></div>
+      </div>
+      <div style="background:var(--white);border-radius:14px;padding:7px 11px;box-shadow:var(--cs);display:flex;align-items:center;gap:5px;">
+        <span style="font-size:16px;">⚡</span>
+        <div><div style="font-size:15px;font-weight:800;line-height:1;color:var(--or);">2,840</div><div style="font-size:9px;color:var(--t3);font-weight:700;">COINS</div></div>
+      </div>
+    </div>
+  </div>
   <div class="scroll-area" style="padding:0 16px;">
     <div class="h1" style="margin-bottom:2px;">Workout</div>
     <div class="muted" style="margin-bottom:20px;">Let's get PUMPD 💪</div>
@@ -418,7 +447,27 @@ body{display:block;margin:0;padding:0;}
 
 <!-- RESULTS -->
 <div id="sres" class="screen">
-  <div class="sbar"><span class="stime">9:41</span></div>
+  <div class="sbar grad-h">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="av av-sm" style="background:linear-gradient(135deg,var(--or),var(--or2));position:relative;font-weight:800;">J
+        <div style="position:absolute;bottom:-5px;right:-5px;background:var(--or);border-radius:7px;padding:1px 5px;font-size:9px;font-weight:800;color:#fff;border:2px solid var(--white);">12</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--t3);font-weight:600;">Good evening 👋</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:var(--text);text-transform:uppercase;">Jackson</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <div style="background:var(--white);border-radius:14px;padding:7px 11px;box-shadow:var(--cs);display:flex;align-items:center;gap:5px;">
+        <span style="font-size:16px;">🔥</span>
+        <div><div style="font-size:15px;font-weight:800;line-height:1;color:var(--text);">14</div><div style="font-size:9px;color:var(--t3);font-weight:700;">STREAK</div></div>
+      </div>
+      <div style="background:var(--white);border-radius:14px;padding:7px 11px;box-shadow:var(--cs);display:flex;align-items:center;gap:5px;">
+        <span style="font-size:16px;">⚡</span>
+        <div><div style="font-size:15px;font-weight:800;line-height:1;color:var(--or);">2,840</div><div style="font-size:9px;color:var(--t3);font-weight:700;">COINS</div></div>
+      </div>
+    </div>
+  </div>
   <div class="scroll-area" style="padding:0 16px;">
     <div id="confetti-wrap" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:10;"></div>
 
@@ -433,24 +482,23 @@ body{display:block;margin:0;padding:0;}
         <span style="font-size:52px;padding:60px 0;display:block;text-align:center;">💪</span>
       </div>
       <!-- Gradient overlay -->
-      <div style="position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,rgba(0,0,0,0.92) 0%,rgba(0,0,0,0.5) 55%,transparent 100%);pointer-events:none;"></div>
+      <div style="position:absolute;bottom:0;left:0;right:0;height:48%;background:linear-gradient(to top,rgba(0,0,0,0.90) 0%,rgba(0,0,0,0.45) 60%,transparent 100%);pointer-events:none;"></div>
       <!-- Score + tags + branding pinned to bottom -->
-      <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 18px 18px;z-index:5;">
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 16px 16px;z-index:5;">
         <!-- Score row -->
         <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:10px;">
-          <div style="display:flex;align-items:baseline;gap:4px;">
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:68px;font-weight:900;color:#fff;line-height:1;text-shadow:0 0 30px rgba(255,77,28,0.8);" id="res-score">9.3</div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:rgba(255,255,255,0.4);margin-bottom:8px;">/10</div>
-            <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;margin-left:6px;">PUMP SCORE</div>
+          <div style="display:flex;align-items:baseline;gap:5px;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:72px;font-weight:900;color:#fff;line-height:1;text-shadow:0 0 24px rgba(255,77,28,0.7);" id="res-score">9.3</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.45);margin-bottom:10px;">/10</div>
+            <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px;margin-left:4px;">PUMP SCORE</div>
           </div>
-          <!-- PUMPD branding top right of overlay -->
-          <div style="text-align:right;padding-bottom:6px;">
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;color:var(--or);letter-spacing:2px;text-shadow:0 0 16px rgba(255,77,28,0.6);">PUMPD</div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.3);font-weight:600;">pumpd.app</div>
+          <!-- PUMPD branding — neon orange, no subtitle -->
+          <div style="padding-bottom:8px;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:var(--or);letter-spacing:2px;text-shadow:0 0 12px rgba(255,77,28,0.9),0 0 28px rgba(255,77,28,0.5);">PUMPD</div>
           </div>
         </div>
-        <!-- Tags row -->
-        <div style="display:flex;gap:6px;flex-wrap:wrap;" id="res-tags"></div>
+        <!-- Tags row — max 3 -->
+        <div style="display:flex;gap:7px;" id="res-tags"></div>
       </div>
     </div>
 
@@ -478,7 +526,27 @@ body{display:block;margin:0;padding:0;}
 
 <!-- PROGRESS -->
 <div id="sprog" class="screen">
-  <div class="sbar"><span class="stime">9:41</span></div>
+  <div class="sbar grad-h">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="av av-sm" style="background:linear-gradient(135deg,var(--or),var(--or2));position:relative;font-weight:800;">J
+        <div style="position:absolute;bottom:-5px;right:-5px;background:var(--or);border-radius:7px;padding:1px 5px;font-size:9px;font-weight:800;color:#fff;border:2px solid var(--white);">12</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--t3);font-weight:600;">Good evening 👋</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:var(--text);text-transform:uppercase;">Jackson</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <div style="background:var(--white);border-radius:14px;padding:7px 11px;box-shadow:var(--cs);display:flex;align-items:center;gap:5px;">
+        <span style="font-size:16px;">🔥</span>
+        <div><div style="font-size:15px;font-weight:800;line-height:1;color:var(--text);">14</div><div style="font-size:9px;color:var(--t3);font-weight:700;">STREAK</div></div>
+      </div>
+      <div style="background:var(--white);border-radius:14px;padding:7px 11px;box-shadow:var(--cs);display:flex;align-items:center;gap:5px;">
+        <span style="font-size:16px;">⚡</span>
+        <div><div style="font-size:15px;font-weight:800;line-height:1;color:var(--or);">2,840</div><div style="font-size:9px;color:var(--t3);font-weight:700;">COINS</div></div>
+      </div>
+    </div>
+  </div>
   <div class="scroll-area" style="padding:0 16px;">
     <div class="h1" style="margin-bottom:2px;">Progress</div>
     <div class="muted" style="margin-bottom:16px;">Track your pump journey</div>
@@ -529,7 +597,27 @@ body{display:block;margin:0;padding:0;}
 
 <!-- LEADERBOARD -->
 <div id="slead" class="screen">
-  <div class="sbar"><span class="stime">9:41</span></div>
+  <div class="sbar grad-h">
+    <div style="display:flex;align-items:center;gap:10px;">
+      <div class="av av-sm" style="background:linear-gradient(135deg,var(--or),var(--or2));position:relative;font-weight:800;">J
+        <div style="position:absolute;bottom:-5px;right:-5px;background:var(--or);border-radius:7px;padding:1px 5px;font-size:9px;font-weight:800;color:#fff;border:2px solid var(--white);">12</div>
+      </div>
+      <div>
+        <div style="font-size:12px;color:var(--t3);font-weight:600;">Good evening 👋</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:900;color:var(--text);text-transform:uppercase;">Jackson</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;">
+      <div style="background:var(--white);border-radius:14px;padding:7px 11px;box-shadow:var(--cs);display:flex;align-items:center;gap:5px;">
+        <span style="font-size:16px;">🔥</span>
+        <div><div style="font-size:15px;font-weight:800;line-height:1;color:var(--text);">14</div><div style="font-size:9px;color:var(--t3);font-weight:700;">STREAK</div></div>
+      </div>
+      <div style="background:var(--white);border-radius:14px;padding:7px 11px;box-shadow:var(--cs);display:flex;align-items:center;gap:5px;">
+        <span style="font-size:16px;">⚡</span>
+        <div><div style="font-size:15px;font-weight:800;line-height:1;color:var(--or);">2,840</div><div style="font-size:9px;color:var(--t3);font-weight:700;">COINS</div></div>
+      </div>
+    </div>
+  </div>
   <div class="scroll-area" style="padding:0 16px;">
     <div class="h1" style="margin-bottom:2px;">Leaderboard</div>
     <div class="muted" style="margin-bottom:16px;">Resets every Sunday</div>
@@ -771,7 +859,7 @@ function showResults(){
   ['res-score','res-score2'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=score;});
   const fd=document.getElementById('res-feedback');if(fd)fd.textContent=feedback;
   const tagsEl=document.getElementById('res-tags');
-  if(tagsEl)tagsEl.innerHTML=tags.map(t=>`<span style="background:rgba(10,5,0,0.55);border:1.5px solid rgba(255,77,28,0.55);border-radius:20px;padding:5px 13px;font-size:12px;font-weight:700;color:var(--or2);">${t}</span>`).join('');
+  if(tagsEl)tagsEl.innerHTML=tags.slice(0,3).map(t=>`<span style="background:rgba(15,8,2,0.65);border:1.5px solid rgba(255,77,28,0.5);border-radius:20px;padding:5px 14px;font-size:13px;font-weight:700;color:var(--or2);">${t}</span>`).join('');
   const imgEl=document.getElementById('res-img');
   if(imgEl){
     if(uploadedPhoto){
