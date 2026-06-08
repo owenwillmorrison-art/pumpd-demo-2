@@ -421,20 +421,39 @@ body{display:block;margin:0;padding:0;}
   <div class="sbar"><span class="stime">9:41</span></div>
   <div class="scroll-area" style="padding:0 16px;">
     <div id="confetti-wrap" style="position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:10;"></div>
-    <div style="text-align:center;margin-bottom:20px;">
-      <div class="label" style="margin-bottom:10px;">Your Pump Score</div>
-      <div class="score-big score-anim" id="res-score">9.3</div>
-      <div style="font-size:16px;color:var(--t3);margin-bottom:14px;">/10</div>
-      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;" id="res-tags">
-        <span class="pill">Vascular</span>
-      </div>
+
+    <!-- Just the label above the image -->
+    <div style="text-align:center;margin-bottom:14px;">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:var(--or);letter-spacing:0.12em;text-transform:uppercase;">Your Pump Score</div>
     </div>
-    <!-- Photo with score overlay card -->
+
+    <!-- Photo card with score/tags/branding overlaid at bottom -->
     <div style="border-radius:22px;overflow:hidden;position:relative;margin-bottom:16px;background:var(--dark);" id="res-photo-card">
-      <div id="res-img" style="width:100%;display:flex;align-items:center;justify-content:center;min-height:200px;">
-        <span style="font-size:52px;padding:50px 0;display:block;text-align:center;">💪</span>
+      <div id="res-img" style="width:100%;display:flex;align-items:center;justify-content:center;min-height:260px;background:var(--d3);">
+        <span style="font-size:52px;padding:60px 0;display:block;text-align:center;">💪</span>
+      </div>
+      <!-- Gradient overlay -->
+      <div style="position:absolute;bottom:0;left:0;right:0;height:50%;background:linear-gradient(to top,rgba(0,0,0,0.92) 0%,rgba(0,0,0,0.5) 55%,transparent 100%);pointer-events:none;"></div>
+      <!-- Score + tags + branding pinned to bottom -->
+      <div style="position:absolute;bottom:0;left:0;right:0;padding:14px 18px 18px;z-index:5;">
+        <!-- Score row -->
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:10px;">
+          <div style="display:flex;align-items:baseline;gap:4px;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:68px;font-weight:900;color:#fff;line-height:1;text-shadow:0 0 30px rgba(255,77,28,0.8);" id="res-score">9.3</div>
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:rgba(255,255,255,0.4);margin-bottom:8px;">/10</div>
+            <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;margin-left:6px;">PUMP SCORE</div>
+          </div>
+          <!-- PUMPD branding top right of overlay -->
+          <div style="text-align:right;padding-bottom:6px;">
+            <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;color:var(--or);letter-spacing:2px;text-shadow:0 0 16px rgba(255,77,28,0.6);">PUMPD</div>
+            <div style="font-size:10px;color:rgba(255,255,255,0.3);font-weight:600;">pumpd.app</div>
+          </div>
+        </div>
+        <!-- Tags row -->
+        <div style="display:flex;gap:6px;flex-wrap:wrap;" id="res-tags"></div>
       </div>
     </div>
+
     <div class="card" style="margin-bottom:14px;border-left:3px solid var(--or);">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;"><span style="font-size:20px;">🤖</span><div class="h3">AI Analysis</div></div>
       <div style="font-size:14px;line-height:1.65;color:var(--t2);" id="res-feedback">Exceptional pump today.</div>
@@ -752,16 +771,17 @@ function showResults(){
   ['res-score','res-score2'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=score;});
   const fd=document.getElementById('res-feedback');if(fd)fd.textContent=feedback;
   const tagsEl=document.getElementById('res-tags');
-  if(tagsEl)tagsEl.innerHTML=tags.map(t=>`<span class="pill">${t}</span>`).join('');
+  if(tagsEl)tagsEl.innerHTML=tags.map(t=>`<span style="background:rgba(10,5,0,0.55);border:1.5px solid rgba(255,77,28,0.55);border-radius:20px;padding:5px 13px;font-size:12px;font-weight:700;color:var(--or2);">${t}</span>`).join('');
   const imgEl=document.getElementById('res-img');
   if(imgEl){
     if(uploadedPhoto){
       imgEl.innerHTML=`<img src="${uploadedPhoto}" style="width:100%;height:auto;display:block;"/>`;
       imgEl.style.minHeight='0';
     }else{
-      imgEl.innerHTML='<span style="font-size:52px;padding:50px 0;display:block;text-align:center;">💪</span>';
+      imgEl.innerHTML='<span style="font-size:52px;padding:60px 0;display:block;text-align:center;">💪</span>';
     }
   }
+  // score in overlay doesn't need animation class since it's always visible
   const scoreEl=document.getElementById('res-score');
   if(scoreEl){scoreEl.classList.remove('score-anim');void scoreEl.offsetWidth;scoreEl.classList.add('score-anim');}
   nav('res');
