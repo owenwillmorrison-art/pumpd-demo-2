@@ -44,26 +44,32 @@ body{display:block;margin:0;padding:0;}
   .sbar{padding-top:max(52px,env(safe-area-inset-top,20px));}
 }
 
-.scroll-area{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:24px;}
+.scroll-area{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:32px;}
 .scroll-area::-webkit-scrollbar{display:none;}
 
 /* Status bar */
 .sbar{display:flex;justify-content:space-between;align-items:center;padding:52px 22px 10px;flex-shrink:0;}
 .stime{font-size:16px;font-weight:700;color:var(--text);}
 
-/* Bottom nav - anchored to true bottom with safe area */
+/* Bottom nav - sits flush at bottom, fills safe area with its own bg color so no dead space */
 .bnav{
   position:absolute;bottom:0;left:0;right:0;
   background:var(--white);
   border-top:1px solid var(--l3);
   display:flex;
-  align-items:center;
+  align-items:flex-start;
   justify-content:space-around;
-  padding:8px 8px calc(8px + env(safe-area-inset-bottom, 0px));
+  padding:10px 8px 0;
+  padding-bottom:max(16px, env(safe-area-inset-bottom, 16px));
   z-index:100;
   box-shadow:0 -4px 20px rgba(0,0,0,0.07);
 }
-.screen{position:absolute;top:0;left:0;right:0;bottom:calc(62px + env(safe-area-inset-bottom, 0px));display:none;flex-direction:column;background:var(--light);overflow:hidden;}
+/* Screen stops exactly where nav starts — nav height is icon(~46px) + padding(10px top) + safe area */
+.screen{
+  position:absolute;top:0;left:0;right:0;
+  bottom:calc(66px + env(safe-area-inset-bottom, 0px));
+  display:none;flex-direction:column;background:var(--light);overflow:hidden;
+}
 .screen.active{display:flex;}
 #scam{bottom:0;}
 #sana{bottom:0;}
@@ -141,10 +147,10 @@ body{display:block;margin:0;padding:0;}
 .rout{background:var(--white);border-radius:20px;box-shadow:var(--cs);padding:16px;margin-bottom:10px;cursor:pointer;transition:transform 0.15s;}
 .rout:active{transform:scale(0.99);}
 
-/* Tabs */
-.tabs{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;}
+/* Tabs - fit all pills on screen */
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;}
 .tabs::-webkit-scrollbar{display:none;}
-.tab{background:var(--l2);border-radius:20px;padding:8px 18px;font-size:13px;font-weight:700;color:var(--t2);white-space:nowrap;cursor:pointer;flex-shrink:0;border:none;font-family:'Barlow',sans-serif;transition:all 0.18s;}
+.tab{background:var(--l2);border-radius:20px;padding:8px 14px;font-size:13px;font-weight:700;color:var(--t2);white-space:nowrap;cursor:pointer;flex-shrink:0;border:none;font-family:'Barlow',sans-serif;transition:all 0.18s;}
 .tab.on{background:linear-gradient(135deg,var(--or),var(--or2));color:#fff;}
 
 /* Badge */
@@ -486,19 +492,17 @@ body{display:block;margin:0;padding:0;}
       <!-- Score + tags + branding pinned to bottom -->
       <div style="position:absolute;bottom:0;left:0;right:0;padding:12px 16px 16px;z-index:5;">
         <!-- Score row -->
-        <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:10px;">
-          <div style="display:flex;align-items:baseline;gap:5px;">
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:72px;font-weight:900;color:#fff;line-height:1;text-shadow:0 0 24px rgba(255,77,28,0.7);" id="res-score">9.3</div>
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.45);margin-bottom:10px;">/10</div>
-            <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:12px;margin-left:4px;">PUMP SCORE</div>
-          </div>
-          <!-- PUMPD branding — neon orange, no subtitle -->
-          <div style="padding-bottom:8px;">
-            <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:var(--or);letter-spacing:2px;text-shadow:0 0 12px rgba(255,77,28,0.9),0 0 28px rgba(255,77,28,0.5);">PUMPD</div>
-          </div>
+        <div style="display:flex;align-items:baseline;gap:5px;margin-bottom:10px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:72px;font-weight:900;color:#fff;line-height:1;text-shadow:0 0 24px rgba(255,77,28,0.7);" id="res-score">9.3</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.45);margin-bottom:8px;">/10</div>
+          <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;margin-left:4px;">PUMP SCORE</div>
         </div>
-        <!-- Tags row — max 3 -->
-        <div style="display:flex;gap:7px;" id="res-tags"></div>
+        <!-- Tags + PUMPD on same row -->
+        <div style="display:flex;align-items:center;justify-content:space-between;">
+          <div style="display:flex;gap:7px;" id="res-tags"></div>
+          <!-- PUMPD branding bottom right -->
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:var(--or);letter-spacing:2px;text-shadow:0 0 12px rgba(255,77,28,0.9),0 0 28px rgba(255,77,28,0.5);flex-shrink:0;">PUMPD</div>
+        </div>
       </div>
     </div>
 
@@ -859,7 +863,7 @@ function showResults(){
   ['res-score','res-score2'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=score;});
   const fd=document.getElementById('res-feedback');if(fd)fd.textContent=feedback;
   const tagsEl=document.getElementById('res-tags');
-  if(tagsEl)tagsEl.innerHTML=tags.slice(0,3).map(t=>`<span style="background:rgba(15,8,2,0.65);border:1.5px solid rgba(255,77,28,0.5);border-radius:20px;padding:5px 14px;font-size:13px;font-weight:700;color:var(--or2);">${t}</span>`).join('');
+  if(tagsEl)tagsEl.innerHTML=tags.slice(0,3).map(t=>`<span style="background:rgba(15,8,2,0.65);border:1.5px solid rgba(255,77,28,0.5);border-radius:20px;padding:5px 14px;font-size:13px;font-weight:700;color:#fff;">${t}</span>`).join('');
   const imgEl=document.getElementById('res-img');
   if(imgEl){
     if(uploadedPhoto){
