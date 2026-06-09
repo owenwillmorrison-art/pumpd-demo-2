@@ -25,7 +25,7 @@
 }
 
 /* MOBILE: fill full screen */
-html,body{height:100%;overflow:hidden;background:var(--light);font-family:'Barlow',sans-serif;}
+html,body{height:100%;overflow:hidden;background:#fff;font-family:'Barlow',sans-serif;}
 body{display:block;margin:0;padding:0;}
 .phone-wrap{width:100%;height:100%;position:fixed;top:0;left:0;}
 .phone{width:100%;height:100%;background:var(--light);overflow:hidden;position:relative;border-radius:0;box-shadow:none;}
@@ -54,7 +54,7 @@ body{display:block;margin:0;padding:0;}
 /* Bottom nav - fixed at bottom, white background fills to true edge */
 .bnav{
   position:absolute;bottom:0;left:0;right:0;
-  background:var(--white);
+  background:#fff;
   border-top:1px solid var(--l3);
   display:flex;
   align-items:flex-start;
@@ -70,7 +70,7 @@ body{display:block;margin:0;padding:0;}
   position:fixed;
   bottom:0;left:0;right:0;
   height:env(safe-area-inset-bottom, 0px);
-  background:var(--white);
+  background:#fff;
   z-index:99;
 }
 /* Screen height set by JS after nav renders, so it's always exact */
@@ -81,7 +81,7 @@ body{display:block;margin:0;padding:0;}
 .screen.active{display:flex;}
 #scam{bottom:0;}
 #sana{bottom:0;}
-.ni{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:5px 8px 4px;border-radius:10px;transition:all 0.18s;flex:1;border:none;background:none;}
+.ni{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:5px 8px 4px;border-radius:12px;transition:all 0.18s;flex:1;border:none;background:none;margin:0 3px;}
 .ni svg{width:22px;height:22px;stroke:var(--t3);stroke-width:2;fill:none;transition:stroke 0.18s;}
 .ni span{font-size:10px;color:var(--t3);font-weight:600;}
 .ni.on svg{stroke:var(--or);}
@@ -632,94 +632,90 @@ body{display:block;margin:0;padding:0;}
 
     <!-- COMPARE tab -->
     <div id="prog-compare" style="display:none;">
-      <!-- Header label -->
-      <div style="text-align:center;margin-bottom:16px;">
-        <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:900;color:var(--t3);letter-spacing:0.12em;text-transform:uppercase;">Pump Comparison</div>
+      <!-- Header -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;">
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:var(--text);text-transform:uppercase;letter-spacing:0.3px;">Your Progress</div>
+        <div style="background:var(--l2);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;color:var(--t2);">12 Months</div>
       </div>
 
-      <!-- Before card -->
-      <div style="margin-bottom:12px;">
-        <div style="font-size:11px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;padding-left:2px;">Before</div>
-        <div style="border-radius:20px;overflow:hidden;position:relative;background:var(--dark);">
-          <!-- Upload zone / photo -->
-          <div id="cmp-before-img" style="width:100%;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--d3);" onclick="triggerCmpUpload('before')">
-            <div style="width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            </div>
-            <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.4);">Upload Before Photo</div>
-          </div>
-          <!-- Gradient + overlay always visible once photo loaded -->
-          <div id="cmp-before-overlay" style="display:none;position:absolute;bottom:0;left:0;right:0;">
-            <div style="height:45%;background:linear-gradient(to top,rgba(0,0,0,0.88),transparent);"></div>
-            <div style="position:absolute;bottom:0;left:0;right:0;padding:10px 14px 14px;">
-              <div style="display:flex;align-items:baseline;gap:4px;margin-bottom:8px;">
-                <div style="font-family:'Barlow Condensed',sans-serif;font-size:52px;font-weight:900;color:#fff;line-height:1;text-shadow:0 0 20px rgba(255,77,28,0.7);" id="cmp-before-score-display">8.1</div>
-                <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:rgba(255,255,255,0.4);margin-bottom:6px;">/10</div>
-                <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;margin-left:3px;">PUMP SCORE</div>
+      <!-- Side-by-side photos -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+
+        <!-- Start photo -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:7px;">
+          <div style="font-size:11px;font-weight:800;color:var(--t3);text-transform:uppercase;letter-spacing:0.1em;text-align:center;">Start</div>
+          <div style="border-radius:18px;overflow:hidden;position:relative;background:var(--dark);aspect-ratio:3/4;">
+            <div id="cmp-before-img" style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--d3);" onclick="triggerCmpUpload('before')">
+              <div style="width:40px;height:40px;border-radius:14px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;margin-bottom:8px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
               </div>
-              <div style="display:flex;gap:5px;flex-wrap:wrap;" id="cmp-before-tags-display"></div>
+              <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.35);text-align:center;">Tap to upload</div>
             </div>
-          </div>
-        </div>
-        <!-- Score editor -->
-        <div id="cmp-before-editor" style="display:none;background:var(--white);border-radius:14px;box-shadow:var(--cs);padding:14px;margin-top:8px;">
-          <div style="font-size:12px;font-weight:700;color:var(--t3);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.06em;">Edit Before Score</div>
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-            <div style="font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;">Score:</div>
-            <input id="cmp-before-score" type="number" min="1" max="10" step="0.1" value="8.1" style="background:var(--l2);border:1.5px solid transparent;border-radius:10px;padding:8px 12px;font-size:16px;font-weight:800;color:var(--text);width:90px;outline:none;font-family:'Barlow Condensed',sans-serif;" oninput="updateCmpCard('before')"/>
-          </div>
-          <button onclick="updateCmpCard('before')" style="background:linear-gradient(135deg,var(--or),var(--or2));border:none;border-radius:12px;padding:10px 20px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;font-family:'Barlow',sans-serif;width:100%;">Apply</button>
-        </div>
-      </div>
-
-      <!-- VS divider -->
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-        <div style="flex:1;height:1px;background:var(--l3);"></div>
-        <div style="background:var(--dark);border-radius:20px;padding:6px 16px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:900;color:var(--or);letter-spacing:2px;">VS</div>
-        <div style="flex:1;height:1px;background:var(--l3);"></div>
-      </div>
-
-      <!-- Present card -->
-      <div style="margin-bottom:12px;">
-        <div style="font-size:11px;font-weight:800;color:var(--or);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;padding-left:2px;">Present</div>
-        <div style="border-radius:20px;overflow:hidden;position:relative;background:var(--dark);">
-          <div id="cmp-present-img" style="width:100%;min-height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--d3);" onclick="triggerCmpUpload('present')">
-            <div style="width:52px;height:52px;border-radius:16px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;margin-bottom:10px;">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            </div>
-            <div style="font-size:13px;font-weight:700;color:rgba(255,255,255,0.4);">Upload Present Photo</div>
-          </div>
-          <div id="cmp-present-overlay" style="display:none;position:absolute;bottom:0;left:0;right:0;">
-            <div style="height:45%;background:linear-gradient(to top,rgba(0,0,0,0.88),transparent);"></div>
-            <div style="position:absolute;bottom:0;left:0;right:0;padding:10px 14px 14px;">
-              <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:8px;">
-                <div style="display:flex;align-items:baseline;gap:4px;">
-                  <div style="font-family:'Barlow Condensed',sans-serif;font-size:52px;font-weight:900;color:#fff;line-height:1;text-shadow:0 0 20px rgba(255,77,28,0.7);" id="cmp-present-score-display">9.4</div>
-                  <div style="font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;color:rgba(255,255,255,0.4);margin-bottom:6px;">/10</div>
-                  <div style="font-size:9px;font-weight:700;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;margin-left:3px;">PUMP SCORE</div>
+            <div id="cmp-before-overlay" style="display:none;position:absolute;bottom:0;left:0;right:0;pointer-events:none;">
+              <div style="height:55%;background:linear-gradient(to top,rgba(0,0,0,0.85),transparent);"></div>
+              <div style="position:absolute;bottom:0;left:0;right:0;padding:8px 10px 10px;">
+                <div style="display:flex;align-items:baseline;gap:2px;">
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;color:#fff;line-height:1;text-shadow:0 0 16px rgba(255,77,28,0.7);" id="cmp-before-score-display">8.1</div>
+                  <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.4);margin-bottom:4px;">/10</div>
                 </div>
-                <div style="font-family:'Barlow Condensed',sans-serif;font-size:18px;font-weight:900;color:var(--or);letter-spacing:2px;text-shadow:0 0 12px rgba(255,77,28,0.9),0 0 28px rgba(255,77,28,0.5);padding-bottom:6px;">PUMPD</div>
+                <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;" id="cmp-before-tags-display"></div>
               </div>
-              <div style="display:flex;gap:5px;flex-wrap:wrap;" id="cmp-present-tags-display"></div>
             </div>
           </div>
-        </div>
-        <div id="cmp-present-editor" style="display:none;background:var(--white);border-radius:14px;box-shadow:var(--cs);padding:14px;margin-top:8px;">
-          <div style="font-size:12px;font-weight:700;color:var(--t3);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.06em;">Edit Present Score</div>
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-            <div style="font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;">Score:</div>
-            <input id="cmp-present-score" type="number" min="1" max="10" step="0.1" value="9.4" style="background:var(--l2);border:1.5px solid transparent;border-radius:10px;padding:8px 12px;font-size:16px;font-weight:800;color:var(--text);width:90px;outline:none;font-family:'Barlow Condensed',sans-serif;" oninput="updateCmpCard('present')"/>
+          <!-- Score editor shown after upload -->
+          <div id="cmp-before-editor" style="display:none;background:var(--white);border-radius:12px;box-shadow:var(--cs);padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--t3);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.06em;">Score</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+              <input id="cmp-before-score" type="number" min="1" max="10" step="0.1" value="8.1" style="background:var(--l2);border:1.5px solid transparent;border-radius:8px;padding:6px 8px;font-size:15px;font-weight:800;color:var(--text);width:100%;outline:none;font-family:'Barlow Condensed',sans-serif;" oninput="updateCmpCard('before')"/>
+            </div>
+            <button onclick="updateCmpCard('before')" style="background:linear-gradient(135deg,var(--or),var(--or2));border:none;border-radius:10px;padding:8px;font-size:12px;font-weight:700;color:#fff;cursor:pointer;font-family:'Barlow',sans-serif;width:100%;">Apply</button>
           </div>
-          <button onclick="updateCmpCard('present')" style="background:linear-gradient(135deg,var(--or),var(--or2));border:none;border-radius:12px;padding:10px 20px;font-size:13px;font-weight:700;color:#fff;cursor:pointer;font-family:'Barlow',sans-serif;width:100%;">Apply</button>
         </div>
+
+        <!-- Arrow divider -->
+        <div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0;gap:6px;padding-bottom:2px;">
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:900;color:var(--or);line-height:1;">›</div>
+        </div>
+
+        <!-- Now photo -->
+        <div style="flex:1;display:flex;flex-direction:column;gap:7px;">
+          <div style="font-size:11px;font-weight:800;color:var(--or);text-transform:uppercase;letter-spacing:0.1em;text-align:center;">Now</div>
+          <div style="border-radius:18px;overflow:hidden;position:relative;background:var(--dark);aspect-ratio:3/4;border:1.5px solid rgba(255,77,28,0.3);">
+            <div id="cmp-present-img" style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;background:var(--d3);" onclick="triggerCmpUpload('present')">
+              <div style="width:40px;height:40px;border-radius:14px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;margin-bottom:8px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              </div>
+              <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.35);text-align:center;">Tap to upload</div>
+            </div>
+            <div id="cmp-present-overlay" style="display:none;position:absolute;bottom:0;left:0;right:0;pointer-events:none;">
+              <div style="height:55%;background:linear-gradient(to top,rgba(0,0,0,0.85),transparent);"></div>
+              <div style="position:absolute;bottom:0;left:0;right:0;padding:8px 10px 10px;">
+                <div style="display:flex;align-items:baseline;gap:2px;">
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:900;color:#fff;line-height:1;text-shadow:0 0 16px rgba(255,77,28,0.7);" id="cmp-present-score-display">9.4</div>
+                  <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.4);margin-bottom:4px;">/10</div>
+                </div>
+                <div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:4px;" id="cmp-present-tags-display"></div>
+              </div>
+            </div>
+          </div>
+          <!-- Score editor shown after upload -->
+          <div id="cmp-present-editor" style="display:none;background:var(--white);border-radius:12px;box-shadow:var(--cs);padding:10px;">
+            <div style="font-size:10px;font-weight:700;color:var(--t3);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.06em;">Score</div>
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
+              <input id="cmp-present-score" type="number" min="1" max="10" step="0.1" value="9.4" style="background:var(--l2);border:1.5px solid transparent;border-radius:8px;padding:6px 8px;font-size:15px;font-weight:800;color:var(--text);width:100%;outline:none;font-family:'Barlow Condensed',sans-serif;" oninput="updateCmpCard('present')"/>
+            </div>
+            <button onclick="updateCmpCard('present')" style="background:linear-gradient(135deg,var(--or),var(--or2));border:none;border-radius:10px;padding:8px;font-size:12px;font-weight:700;color:#fff;cursor:pointer;font-family:'Barlow',sans-serif;width:100%;">Apply</button>
+          </div>
+        </div>
+
       </div>
 
       <!-- Improvement stat -->
       <div id="cmp-improvement" style="display:none;">
-        <div class="card-dark" style="margin-bottom:14px;text-align:center;padding:20px;">
-          <div style="font-size:12px;color:rgba(255,255,255,0.4);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">Pump Improvement</div>
-          <div style="font-family:'Barlow Condensed',sans-serif;font-size:56px;font-weight:900;color:#4ade80;line-height:1;" id="cmp-delta">+1.3</div>
-          <div style="font-size:13px;color:rgba(255,255,255,0.5);margin-top:4px;">points gained</div>
+        <div class="card-dark" style="margin-bottom:12px;text-align:center;padding:18px;">
+          <div style="font-size:11px;color:rgba(255,255,255,0.4);font-weight:700;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px;">Pump Improvement</div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:52px;font-weight:900;color:#4ade80;line-height:1;" id="cmp-delta">+1.3</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:3px;">points gained</div>
         </div>
         <button onclick="saveCmpImage()" style="background:linear-gradient(135deg,var(--or),var(--or2));border:none;border-radius:16px;padding:15px 24px;font-size:15px;font-weight:700;color:#fff;cursor:pointer;width:100%;font-family:'Barlow',sans-serif;box-shadow:0 4px 18px rgba(255,77,28,0.32);margin-bottom:10px;">💾 Save Comparison</button>
       </div>
