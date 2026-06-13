@@ -497,9 +497,9 @@ body{display:block;margin:0;padding:0;}
           <div style="font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:rgba(255,255,255,0.45);margin-bottom:8px;">/10</div>
           <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;margin-left:4px;">PUMP SCORE</div>
         </div>
-        <!-- Tags + PUMPD on same row -->
+        <!-- Rank badge + PUMPD on same row -->
         <div style="display:flex;align-items:center;justify-content:space-between;">
-          <div style="display:flex;gap:7px;" id="res-tags"></div>
+          <div id="res-rank"></div>
           <!-- PUMPD branding bottom right -->
           <div style="font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:900;color:var(--or);letter-spacing:2px;text-shadow:0 0 12px rgba(255,77,28,0.9),0 0 28px rgba(255,77,28,0.5);flex-shrink:0;">PUMPD</div>
         </div>
@@ -1024,22 +1024,25 @@ function applyName(){
   document.getElementById('name-display').style.display='block';
 }
 // Results page score editor
-const RES_TAGS={
-  high:  ['Vascular','Full','Dense'],
-  vhigh: ['Capped','Peeled','Swole'],
-  mid:   ['Shredded','Pumped','Full'],
-  low:   ['Dense','Striated','Capped'],
-  base:  ['Grainy','Dry','Hard']
-};
-function getResTagsForScore(s){
-  s=parseFloat(s);
-  const pool=s>=9.3?RES_TAGS.high:s>=9.0?RES_TAGS.vhigh:s>=8.5?RES_TAGS.mid:s>=8.0?RES_TAGS.low:RES_TAGS.base;
-  return pool;
+const RES_RANKS=[
+  {min:0,   max:5.0, name:'Bronze Pump',  icon:'🥉', bg:'rgba(180,123,79,0.22)',  border:'rgba(205,141,89,0.55)',  color:'#E0A772', glow:false},
+  {min:5.0, max:6.5, name:'Silver Pump',  icon:'🥈', bg:'rgba(192,196,204,0.18)', border:'rgba(210,214,222,0.5)',  color:'#E4E7ED', glow:false},
+  {min:6.5, max:7.5, name:'Gold Pump',    icon:'🥇', bg:'rgba(255,215,0,0.16)',   border:'rgba(255,215,0,0.55)',   color:'#FFD966', glow:false},
+  {min:7.5, max:8.5, name:'Platinum Pump',icon:'💎', bg:'rgba(125,211,252,0.16)', border:'rgba(125,211,252,0.55)', color:'#9FE3FF', glow:false},
+  {min:8.5, max:9.0, name:'Elite Pump',   icon:'⚡', bg:'rgba(168,85,247,0.18)',  border:'rgba(168,85,247,0.55)',  color:'#D9B3FF', glow:false},
+  {min:9.0, max:10.01,name:'PUMPD Legend',icon:'👑', bg:'linear-gradient(135deg,rgba(255,77,28,0.3),rgba(255,196,0,0.25))', border:'rgba(255,150,30,0.7)', color:'#FFE2A8', glow:true}
+];
+function getResRank(score){
+  score=parseFloat(score);
+  for(const r of RES_RANKS){ if(score>=r.min && score<r.max) return r; }
+  return RES_RANKS[RES_RANKS.length-1];
 }
 function renderResTags(score){
-  const tags=getResTagsForScore(score);
-  const el=document.getElementById('res-tags');
-  if(el) el.innerHTML=tags.map(t=>`<span style="background:rgba(15,8,2,0.65);border:1.5px solid rgba(255,77,28,0.5);border-radius:20px;padding:5px 13px;font-size:12px;font-weight:700;color:#fff;">${t}</span>`).join('');
+  const rank=getResRank(score);
+  const el=document.getElementById('res-rank');
+  if(!el) return;
+  const glowStyle=rank.glow?'box-shadow:0 0 18px rgba(255,150,30,0.55),0 0 6px rgba(255,255,255,0.25) inset;':'';
+  el.innerHTML=`<span style="display:inline-flex;align-items:center;gap:6px;background:${rank.bg};border:1.5px solid ${rank.border};border-radius:20px;padding:6px 14px;font-size:13px;font-weight:800;color:${rank.color};letter-spacing:0.04em;text-transform:uppercase;${glowStyle}">${rank.icon} ${rank.name}</span>`;
 }
 function toggleResEditor(){
   const ed=document.getElementById('res-score-editor');
@@ -1282,7 +1285,7 @@ function spawnConfetti(){
 function saveImage(){
   if(!uploadedPhoto){alert('Upload a photo first!');return;}
   const score=document.getElementById('res-score').textContent;
-  const tags=Array.from(document.getElementById('res-tags').querySelectorAll('span')).map(s=>s.textContent);
+  const rank=getResRank(score);
   const img=new Image();
   img.onload=function(){
     const canvas=document.createElement('canvas');
@@ -1308,20 +1311,27 @@ function saveImage(){
     ctx.font=`700 ${Math.round(W*0.026)}px Arial,sans-serif`;
     ctx.fillStyle='rgba(255,255,255,0.5)';
     ctx.fillText('YOUR PUMP SCORE',Math.round(W*0.05),H-Math.round(H*0.08)-fs-Math.round(H*0.015));
-    let tagX=Math.round(W*0.05);
-    const tagY=H-Math.round(H*0.03);
-    const tagFs=Math.round(W*0.028);
-    ctx.font=`700 ${tagFs}px Arial,sans-serif`;
-    tags.forEach(tag=>{
-      const tw=ctx.measureText(tag).width+Math.round(W*0.04);
-      ctx.fillStyle='rgba(255,77,28,0.55)';
-      ctx.beginPath();
-      ctx.roundRect(tagX,tagY-tagFs-6,tw,tagFs+10,tagFs/2);
+    // Rank badge (bottom-left, below score)
+    const rankLabel=`${rank.icon} ${rank.name.toUpperCase()}`;
+    const rankFs=Math.round(W*0.032);
+    ctx.font=`800 ${rankFs}px Arial,sans-serif`;
+    const rankX=Math.round(W*0.05);
+    const rankY=H-Math.round(H*0.03);
+    const rw=ctx.measureText(rankLabel).width+Math.round(W*0.045);
+    ctx.fillStyle=rank.glow?'rgba(255,150,30,0.32)':'rgba(255,77,28,0.22)';
+    ctx.beginPath();
+    ctx.roundRect(rankX,rankY-rankFs-8,rw,rankFs+14,(rankFs+14)/2);
+    ctx.fill();
+    if(rank.glow){
+      ctx.save();
+      ctx.shadowColor='rgba(255,150,30,0.7)';
+      ctx.shadowBlur=Math.round(W*0.025);
       ctx.fill();
-      ctx.fillStyle='#FFAB76';
-      ctx.fillText(tag,tagX+Math.round(W*0.02),tagY-2);
-      tagX+=tw+Math.round(W*0.015);
-    });
+      ctx.restore();
+    }
+    ctx.fillStyle=rank.glow?'#FFE2A8':'#FFD9C2';
+    ctx.fillText(rankLabel,rankX+Math.round(W*0.022),rankY-2);
+    // PUMPD branding top right
     ctx.font=`900 ${Math.round(W*0.05)}px Arial Black,sans-serif`;
     ctx.fillStyle='rgba(255,77,28,0.9)';
     ctx.shadowColor='rgba(255,77,28,0.4)';
